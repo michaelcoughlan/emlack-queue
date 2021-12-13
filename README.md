@@ -2,37 +2,29 @@
 
 Promise Queue is a package to execute an array of Promises in order. The Queue will wait until the current Promise is resolved before moving on to the next item.
 
-## Usage
+## Usage
 
 ```javascript
-const { PromiseQueue } = require('.');
+const PromiseQueue = require('./src');
 
-// Initialize the PromiseQueue
-const queue = new PromiseQueue();
+const isQueueStoppedByError = false;
+const q = new PromiseQueue(isQueueStoppedByError);
 
-// Add jobs to the queue
-queue.add('job-1', () => new Promise((resolve) => {
+q.add('job-1', () => new Promise((resolve, reject) => {
     setTimeout(() => {
-        resolve('Job 1 complete')
-    }, 2500);
+        reject(1);
+    }, 1000);
 }));
 
-queue.add('job-2', () => new Promise((resolve) => {
-    resolve('Job 2 complete');
+q.add('job-2', () => new Promise((resolve, reject) => {
+    resolve(2);
 }));
 
-queue.add('job-3', () => new Promise((resolve, reject) => {
-    reject('Job 3 complete');
+q.add('job-3', () => new Promise((resolve, reject) => {
+    resolve(3);
 }));
 
-// Start the queue execution
-queue.start()
-    .then((queueResults) => {
-        // Handle queue results
-        console.log(queueResults);
-    })
-    .catch((error) => {
-        // Handle errors from the queue
-        console.log(error);
-    });
+q.start()
+    .then(res => console.log(res))
+    .catch(error => console.log('ERROR IN QUEUE', error));
 ```

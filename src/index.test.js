@@ -1,4 +1,4 @@
-const { PromiseQueue } = require('./');
+const PromiseQueue = require('./');
 
 describe('Testing PromiseQueue functionality', () => {
     let promiseQueue;
@@ -48,6 +48,31 @@ describe('Testing PromiseQueue functionality', () => {
             });
     });
 
+    test('the queue ends when the flag is enabled', () => {
+        promiseQueue.isQueueStoppedByError = true;
+
+        promiseQueue.add('job-1', () => new Promise((resolve, reject) => {
+            setTimeout(() => {
+                reject(1);
+            }, 1000);
+        }));
+
+        return promiseQueue.start()
+            .then(() => {})
+            .catch((error) => {
+                expect(error.code).toBe(500);
+                expect(error.message).toBe('Queue stopped due to error.');
+                expect(error.data).toEqual({
+                    errors: [{
+                        key: 'job-1',
+                        result: 1,
+                        status: 'ERROR',
+                    }],
+                    success: [],
+                });
+            });
+    });
+
     test('the correct error response when all jobs fail', () => {
         promiseQueue.add('job-1', () => new Promise((resolve, reject) => reject(1)));
 
@@ -55,7 +80,7 @@ describe('Testing PromiseQueue functionality', () => {
             .then(() => {})
             .catch((error) => {
                 expect(error.code).toBe(500);
-                expect(error.data).toEqual([{ key: 'job-1', error: 1 }]);
+                expect(error.data).toEqual([{ key: 'job-1', result: 1, status: 'ERROR' }]);
                 expect(error.message).toBe('All jobs in the PromiseQueue failed.');
             });
     });
