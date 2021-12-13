@@ -1,14 +1,14 @@
-# Promise Queue
+# @emlack/queue
 
-Promise Queue is a package to execute an array of Promises in order. The Queue will wait until the current Promise is resolved before moving on to the next item.
+@emlack/queue is a package to sequentially execute an array of Promises. The queue will wait until the current Promise is resolved before moving on to the next item.
 
 ## Usage
 
 ```javascript
-const PromiseQueue = require('./src');
+const Queue = require('./src');
 
 const isQueueStoppedByError = false;
-const q = new PromiseQueue(isQueueStoppedByError);
+const q = new Queue(isQueueStoppedByError);
 
 q.add('job-1', () => new Promise((resolve, reject) => {
     setTimeout(() => {

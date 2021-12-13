@@ -1,7 +1,7 @@
 {
-  "name": "promise-queue",
+  "name": "@emlack/queue",
   "version": "0.0.1",
-  "description": "A package to execute a queue of promises in order",
+  "description": "Execute Promises in sequentially",
   "main": "index.js",
   "scripts": {
     "start": "node src/index.js",
@@ -12,17 +12,19 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/michaelcoughlan/promise-queue.git"
+    "url": "git+https://github.com/michaelcoughlan/emlack-queue.git"
   },
   "keywords": [
+    "emlack",
     "promise",
     "queue",
-    "array"
+    "array",
+    "sequential"
   ],
   "author": "Michael Coughlan",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/michaelcoughlan/promise-queue/issues"
+    "url": "https://github.com/michaelcoughlan/emlack-queue/issues"
   },
-  "homepage": "https://github.com/michaelcoughlan/promise-queue#readme"
+  "homepage": "https://github.com/michaelcoughlan/emlack-queue#readme"
 }

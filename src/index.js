@@ -1,6 +1,6 @@
 const { ERROR, NOT_STARTED, PENDING, SUCCESS } = require('./constants');
 
-class PromiseQueue {
+class Queue {
     errors = [];
     isQueueStoppedByError = false;
     queue = [];
@@ -45,7 +45,7 @@ class PromiseQueue {
                         reject({
                             code: 500,
                             data: this.errors,
-                            message: 'All jobs in the PromiseQueue failed.',
+                            message: 'All jobs in the Queue failed.',
                         });
                     }
 
@@ -135,4 +135,4 @@ class PromiseQueue {
     }
 }
 
-module.exports = PromiseQueue;
+module.exports = Queue;

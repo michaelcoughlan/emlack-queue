@@ -1,46 +1,46 @@
-const PromiseQueue = require('./');
+const Queue = require('./');
 
-describe('Testing PromiseQueue functionality', () => {
-    let promiseQueue;
+describe('Testing Queue functionality', () => {
+    let q;
 
     beforeEach(() => {
-        promiseQueue = new PromiseQueue();
+        q = new Queue();
     });
 
-    test('that the PromiseQueue class is initialized without error', () => {
-        expect(promiseQueue).toBeDefined();
+    test('that the queue class is initialized without error', () => {
+        expect(q).toBeDefined();
     });
 
     test('that jobs are added to the queue', () => {
-        promiseQueue.add('job-1', () => new Promise(resolve => resolve(1)));
-        promiseQueue.add('job-2', () => new Promise(resolve => resolve(2)));
-        promiseQueue.add('job-3', () => new Promise(resolve => resolve(3)));
+        q.add('job-1', () => new Promise(resolve => resolve(1)));
+        q.add('job-2', () => new Promise(resolve => resolve(2)));
+        q.add('job-3', () => new Promise(resolve => resolve(3)));
 
-        expect(promiseQueue.queue.length).toBe(3);
+        expect(q.queue.length).toBe(3);
     });
 
     test('that the queue is cleared of all jobs', () => {
-        promiseQueue.add('job-1', () => new Promise(resolve => resolve(1)));
-        promiseQueue.add('job-2', () => new Promise(resolve => resolve(2)));
-        promiseQueue.add('job-3', () => new Promise(resolve => resolve(3)));
+        q.add('job-1', () => new Promise(resolve => resolve(1)));
+        q.add('job-2', () => new Promise(resolve => resolve(2)));
+        q.add('job-3', () => new Promise(resolve => resolve(3)));
 
-        expect(promiseQueue.queue.length).toBe(3);
+        expect(q.queue.length).toBe(3);
 
-        promiseQueue.resetQueue();
+        q.resetQueue();
 
-        expect(promiseQueue.queue.length).toBe(0);
+        expect(q.queue.length).toBe(0);
     });
 
     test('the promises get executed in the correct order', () => {
-        promiseQueue.add('job-1', () => new Promise((resolve) => {
+        q.add('job-1', () => new Promise((resolve) => {
             setTimeout(() => {
                 resolve(1);
             }, 500);
         }));
 
-        promiseQueue.add('job-2', () => new Promise(resolve => resolve(2)));
+        q.add('job-2', () => new Promise(resolve => resolve(2)));
 
-        return promiseQueue.start()
+        return q.start()
             .then((queueResult) => {
                 expect(queueResult.success[0].result).toBe(1);
                 expect(queueResult.success[1].result).toBe(2);
@@ -49,15 +49,15 @@ describe('Testing PromiseQueue functionality', () => {
     });
 
     test('the queue ends when the flag is enabled', () => {
-        promiseQueue.isQueueStoppedByError = true;
+        q.isQueueStoppedByError = true;
 
-        promiseQueue.add('job-1', () => new Promise((resolve, reject) => {
+        q.add('job-1', () => new Promise((resolve, reject) => {
             setTimeout(() => {
                 reject(1);
             }, 1000);
         }));
 
-        return promiseQueue.start()
+        return q.start()
             .then(() => {})
             .catch((error) => {
                 expect(error.code).toBe(500);
@@ -74,14 +74,14 @@ describe('Testing PromiseQueue functionality', () => {
     });
 
     test('the correct error response when all jobs fail', () => {
-        promiseQueue.add('job-1', () => new Promise((resolve, reject) => reject(1)));
+        q.add('job-1', () => new Promise((resolve, reject) => reject(1)));
 
-        return promiseQueue.start()
+        return q.start()
             .then(() => {})
             .catch((error) => {
                 expect(error.code).toBe(500);
                 expect(error.data).toEqual([{ key: 'job-1', result: 1, status: 'ERROR' }]);
-                expect(error.message).toBe('All jobs in the PromiseQueue failed.');
+                expect(error.message).toBe('All jobs in the Queue failed.');
             });
     });
 });
