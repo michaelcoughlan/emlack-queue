@@ -1,6 +1,6 @@
 const { ERROR, NOT_STARTED, PENDING, SUCCESS } = require('./constants');
 
-class Queue {
+class PromiseQu {
     errors = [];
     isQueueStoppedByError = false;
     queue = [];
@@ -135,4 +135,4 @@ class Queue {
     }
 }
 
-module.exports = Queue;
+module.exports = PromiseQu;

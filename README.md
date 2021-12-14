@@ -1,14 +1,18 @@
-# @emlack/queue
+# Promise Qu
 
-@emlack/queue is a package to sequentially execute an array of Promises. The queue will wait until the current Promise is resolved before moving on to the next item.
+Promise Qu uses recursion to sequentially execute an array of Promises. The queue will wait until the current Promise is resolved before moving on to the next item.
+
+## Why use Promise Qu?
+
+If you have an array of Promises that need to wait for the previous one to resolve before continuing.
 
 ## Usage
 
 ```javascript
-const Queue = require('./src');
+const PromiseQu = require('./src');
 
 const isQueueStoppedByError = false;
-const q = new Queue(isQueueStoppedByError);
+const q = new PromiseQu(isQueueStoppedByError);
 
 q.add('job-1', () => new Promise((resolve, reject) => {
     setTimeout(() => {

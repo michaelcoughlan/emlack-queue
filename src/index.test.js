@@ -1,10 +1,10 @@
-const Queue = require('./');
+const PromiseQu = require('./');
 
-describe('Testing Queue functionality', () => {
+describe('Testing PromiseQu functionality', () => {
     let q;
 
     beforeEach(() => {
-        q = new Queue();
+        q = new PromiseQu();
     });
 
     test('that the queue class is initialized without error', () => {
