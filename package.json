@@ -1,6 +1,6 @@
 {
   "name": "promise-qu",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Execute Promises sequentially",
   "main": "index.js",
   "scripts": {
