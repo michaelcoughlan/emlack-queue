@@ -2,6 +2,10 @@
 
 Promise Qu uses recursion to sequentially execute an array of Promises. The queue will wait until the current Promise is resolved before moving on to the next item.
 
+## To install
+
+https://www.npmjs.com/package/promise-qu
+
 ## Why use Promise Qu?
 
 If you have an array of Promises that need to wait for the previous one to resolve before continuing.
